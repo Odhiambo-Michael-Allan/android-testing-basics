@@ -8,13 +8,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.odesa.todo.R
+import com.odesa.todo.TodoApplication
 import com.odesa.todo.databinding.FragmentStatisticsBinding
 import com.odesa.todo.util.setupRefreshLayout
 
 class StatisticsFragment : Fragment() {
 
     private lateinit var binding: FragmentStatisticsBinding
-    private val viewModel by viewModels<StatisticsViewModel>()
+    private val viewModel by viewModels<StatisticsViewModel> {
+        StatisticsViewModelFactory(
+            ( requireContext().applicationContext as TodoApplication ).tasksRepository
+        )
+    }
 
     override fun onCreate( savedInstanceState: Bundle? ) {
         super.onCreate( savedInstanceState )

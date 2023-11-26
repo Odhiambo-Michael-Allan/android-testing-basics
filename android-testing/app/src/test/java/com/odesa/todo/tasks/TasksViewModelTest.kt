@@ -3,10 +3,18 @@ package com.odesa.todo.tasks
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.odesa.todo.Event
+import com.odesa.todo.MainCoroutineRule
+import com.odesa.todo.R
 import com.odesa.todo.data.Task
 import com.odesa.todo.data.source.FakeTasksRepository
 import com.odesa.todo.data.source.TasksRepository
 import com.odesa.todo.getOrAwaitValue
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -15,6 +23,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.not
 import org.hamcrest.Matchers.nullValue
+import org.junit.After
 import org.junit.Before
 
 class TasksViewModelTest {
@@ -22,9 +31,14 @@ class TasksViewModelTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
+
     private lateinit var tasksViewModel: TasksViewModel
     private lateinit var tasksRepository: FakeTasksRepository
 
+    @OptIn( ExperimentalCoroutinesApi::class )
     @Before
     fun setup() {
         tasksRepository = FakeTasksRepository()
@@ -49,5 +63,14 @@ class TasksViewModelTest {
         assertThat( value, `is`( true ) )
     }
 
+    @Test
+    fun completeTask_dataAndSnackbarUpdated() {
+        val task = Task( "Title", "Description" )
+        tasksRepository.addTasks( task )
+        tasksViewModel.completeTask( task, true )
+        assertThat( tasksRepository.tasksServiceData[ task.id ]?.isCompleted, `is`( true ) )
+        val snackbarText: Event<Int> = tasksViewModel.snackbarText.getOrAwaitValue()
+        assertThat( snackbarText.getContentIfNotHandled(), `is`( R.string.task_marked_complete ) )
+    }
 
 }

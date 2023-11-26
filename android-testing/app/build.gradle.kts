@@ -63,6 +63,7 @@ dependencies {
     val espressoVersion = "3.5.1"
     val mockitoVersion = "5.7.0"
     val dexMakerVersion = "2.28.3"
+    val archTestingVersion = "2.2.0"
 
     // App Dependencies
     implementation( "androidx.core:core-ktx:1.12.0" )
@@ -94,7 +95,7 @@ dependencies {
     testImplementation( "androidx.test.ext:junit-ktx:1.1.5" )
     testImplementation( "androidx.test:core-ktx:1.5.0" )
     testImplementation( "org.robolectric:robolectric:4.11.1" )
-    testImplementation( "androidx.arch.core:core-testing:2.2.0" )
+    testImplementation( "androidx.arch.core:core-testing:$archTestingVersion" )
     testImplementation( "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1" )
 
     // AndroidX Test - Instrumented testing
@@ -105,6 +106,7 @@ dependencies {
     androidTestImplementation( "org.mockito:mockito-core:$mockitoVersion" )
     androidTestImplementation( "com.linkedin.dexmaker:dexmaker-mockito:$dexMakerVersion" )
     androidTestImplementation( "androidx.test.espresso:espresso-contrib:$espressoVersion" )
+    androidTestImplementation( "androidx.arch.core:core-testing:$archTestingVersion" )
     debugImplementation( "androidx.fragment:fragment-testing:$fragmentVersion" )
 
     

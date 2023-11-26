@@ -11,6 +11,9 @@ import kotlinx.coroutines.withContext
 
 /**
  * Concrete implementation of a data source as a db.
+ *
+ * This class takes the information returned by the DAO and converts it to a format that is
+ * expected by the repository ( for example, it wraps returned values with Success or Error states )
  */
 class TasksLocalDataSource (
     private val tasksDao: TasksDao,

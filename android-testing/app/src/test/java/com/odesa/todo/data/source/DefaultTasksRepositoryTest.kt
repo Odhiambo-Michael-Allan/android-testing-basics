@@ -1,5 +1,6 @@
 package com.odesa.todo.data.source
 
+import com.odesa.todo.MainCoroutineRule
 import com.odesa.todo.data.Result
 import com.odesa.todo.data.Task
 import kotlinx.coroutines.Dispatchers
@@ -13,8 +14,14 @@ import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.core.IsEqual
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Rule
 
 class DefaultTasksRepositoryTest {
+
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
+
     private val task1 = Task( "Title1", "Description1" )
     private val task2 = Task( "Title2", "Description2" )
     private val task3 = Task( "Title3", "Description3" )
@@ -32,12 +39,13 @@ class DefaultTasksRepositoryTest {
         tasksRemoteDataSource = FakeDataSource( remoteTasks.toMutableList() )
         tasksLocalDataSource = FakeDataSource( localTasks.toMutableList() )
         tasksRepository = DefaultTasksRepository(
-            tasksRemoteDataSource, tasksLocalDataSource, Dispatchers.Unconfined
+            tasksRemoteDataSource, tasksLocalDataSource, Dispatchers.Main
         )
     }
 
+    @OptIn( ExperimentalCoroutinesApi::class )
     @Test
-    fun getTasks_requestAllTasksFromRemoteDataSource() = runTest {
+    fun getTasks_requestAllTasksFromRemoteDataSource() = mainCoroutineRule.runBlockingTest {
         val tasks = tasksRepository.getTasks( true ) as Success
         assertThat( tasks.data, IsEqual( remoteTasks ) )
     }
