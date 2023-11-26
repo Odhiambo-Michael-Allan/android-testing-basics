@@ -55,6 +55,8 @@ android {
 
     testOptions.unitTests {
         isIncludeAndroidResources = true
+        // required to keep your unit tests running as you add idling resource code to your app code
+        isReturnDefaultValues = true
     }
 }
 
@@ -75,6 +77,7 @@ dependencies {
     implementation( "androidx.annotation:annotation:1.7.0" )
     implementation( "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1" )
     implementation( "com.jakewharton.timber:timber:5.0.1" )
+    implementation( "androidx.test.espresso:espresso-idling-resource:$espressoVersion" )
 
     // Architecture Components
     implementation( "androidx.room:room-runtime:2.6.0" )

@@ -49,6 +49,14 @@ class TaskDetailViewModel( private val tasksRepository: TasksRepository ) : View
         input?.isCompleted ?: false
     }
 
+    fun start( taskId: String ) {
+        // If we're already loading or already loaded, return ( might be a config change )
+        if ( _dataLoading.value == true || taskId == _taskId.value )
+            return
+        // Trigger the load
+        _taskId.value = taskId
+    }
+
     private fun computeResult( taskResult: Result<Task> ): Task? {
         return if ( taskResult is Result.Success) {
             taskResult.data
@@ -82,14 +90,6 @@ class TaskDetailViewModel( private val tasksRepository: TasksRepository ) : View
 
     private fun showSnackbarMessage( @StringRes message: Int ) {
         _snackbarText.value = Event( message )
-    }
-
-    fun start( taskId: String ) {
-        // If we're already loading or already loaded, return ( might be a config change )
-        if ( _dataLoading.value == true || taskId == _taskId.value )
-            return
-        // Trigger the load
-        _taskId.value = taskId
     }
 
     fun refresh() {

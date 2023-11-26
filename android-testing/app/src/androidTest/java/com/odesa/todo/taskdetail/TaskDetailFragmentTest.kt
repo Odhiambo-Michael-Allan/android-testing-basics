@@ -21,6 +21,9 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
+/**
+ * Integration Test.
+ */
 @MediumTest
 @RunWith( AndroidJUnit4::class )
 class TaskDetailFragmentTest {

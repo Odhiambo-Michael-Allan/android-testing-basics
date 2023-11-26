@@ -29,6 +29,9 @@ import android.content.Context
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
+/**
+ * Integration Test.
+ */
 @RunWith( AndroidJUnit4::class )
 @MediumTest
 class TasksFragmentTest {

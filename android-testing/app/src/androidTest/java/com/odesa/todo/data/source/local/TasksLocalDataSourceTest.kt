@@ -20,6 +20,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.hamcrest.MatcherAssert.assertThat
 
+/**
+ * Integration Test.
+ */
 @ExperimentalCoroutinesApi
 @RunWith( AndroidJUnit4::class )
 @MediumTest
